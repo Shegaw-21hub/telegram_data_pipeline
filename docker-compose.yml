@@ -1,16 +1,38 @@
-version: '3.11'
+# docker-compose.yml
+version: '3.8'
+
 services:
-web:
-build: .
-ports:
-- "8000:8000"
-env_file:
-- .env
-db:
-image: postgres:13
-environment:
-POSTGRES_DB: your_db
-POSTGRES_USER: your_user
-POSTGRES_PASSWORD: your_password
-ports:
-- "5432:5432"
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/medical_data
+    depends_on:
+      - db
+    command: bash -c "uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=medical_data
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  dbt:
+    build: .
+    volumes:
+      - .:/app
+    working_dir: /app/dbt
+    depends_on:
+      - db
+    command: dbt run --profiles-dir .
+
+volumes:
+  postgres_data:
