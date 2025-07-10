@@ -1,0 +1,1 @@
+This project delivers an end-to-end data pipeline for processing Telegram data into an analytical API.
