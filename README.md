@@ -9,7 +9,7 @@
 
 ## ✅ Interim Deliverables Completed
 
-### Task 0 - Project Setup
+## Task 0 - Project Setup
 ```bash
 .
 ├── Dockerfile                  # Containerized Python+PostgreSQL
@@ -18,9 +18,9 @@
 ├── .env.example                # Environment template
 └── .gitignore                 # Excludes secrets/logs
 ```
-### Task 1 - Data Scraping
+## Task 1 - Data Scraping
 ### Key Features
-## Features
+
 
 - Scrapes 3+ Ethiopian medical channels (`Chemed`, `Lobelia`, `Tikvah`)
 - Stores raw JSON in a partitioned structure:  
@@ -30,19 +30,19 @@
   _Log file:_ `scraping/scraper.log`
 
 
-### Task 2 - dbt Modeling
-## Star Schema Implemented
+## Task 2 - dbt Modeling
+### Star Schema Implemented
 
 - `dim_channels` – Channel metadata  
 - `dim_dates` – Time dimensions  
 - `fct_messages` – Message facts (links to dims)
 
-# 🛠️ Interim Setup Guide
+## 🛠️ Interim Setup Guide
 ### Prerequisites
 - Docker Desktop
 - Python 3.11
 - Telegram API ID/HASH
-##  Installation
+###  Installation
 ## Clone, Setup, and Start Containers
 
 ```bash
@@ -72,18 +72,18 @@ cd dbt_medical
 dbt run --select staging+   # Builds all models in staging and downstream
 dbt test                    # Runs 12+ tests (schema + data tests)
 ```
-# 📊 Interim Data Model
+## 📊 Interim Data Model
 <img src="docs/star_schema.png" width="400" alt="Star Schema">
 
-# 🔍 Key Files for Grading
+## 🔍 Key Files for Grading
 | Task | Critical Files                                                                 |
 |------|----------------------------------------------------------------------------------|
 | 0    | `Dockerfile`, `docker-compose.yml`, `.gitignore`                                |
 | 1    | `scraping/telegram_scraper.py`, `data/raw/` structure                            |
 | 2    | `dbt_medical/models/{staging,marts}/`, `dbt_medical/tests/`                      |
 
-# 📝 Interim Report Highlights
-## Highlights
+## 📝 Interim Report Highlights
+### Highlights
 
 - **Partitioned Data Lake**: Daily JSON files preserve raw data
 - **dbt Tests**: 100% pass rate on primary keys and custom checks
