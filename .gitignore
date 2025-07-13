@@ -13,3 +13,8 @@ venv/
 data/
 dbt/target/
 dbt/dbt_packages/
+
+# Ignore Telethon session files
+*.session
+*.session-journal
+telegram_sessions/
