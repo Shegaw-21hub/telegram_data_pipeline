@@ -1,0 +1,6 @@
+# ... other configurations in dbt_project.yml
+name: 'telegram_data_pipeline' # Ensure this matches your directory name if it's the project root
+version: '1.0.0'
+config-version: 2
+profile: 'telegram_data_pipeline' # THIS IS THE CRUCIAL LINE
+# ... rest of your dbt_project.ymlv
