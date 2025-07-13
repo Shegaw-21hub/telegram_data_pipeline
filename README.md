@@ -1,89 +1,96 @@
+# 🏥 Ethiopian Medical Telegram Analytics
 
-# 🏥 Telegram Medical Analytics Pipeline
-This project delivers an end-to-end data pipeline for processing Telegram data into an analytical API.
+**Tasks 0-2 Completed: Environment Setup • Data Scraping • dbt Modeling**  
+[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/) 
+[![dbt 1.5](https://img.shields.io/badge/dbt-1.5-orange.svg)](https://www.getdbt.com/) 
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13+-blue.svg)](https://www.postgresql.org/)
 
-**End-to-End Data Product: Scraping → ETL (dbt) → AI Enrichment (YOLOv8) → Analytics API (FastAPI) → Orchestration (Dagster)**
+<img src="docs/interim_architecture.png" width="600" alt="Interim Architecture">
 
-[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![CI/CD](https://github.com/yourusername/telegram-med-analytics-pipeline/actions/workflows/test.yml/badge.svg)](https://github.com/yourusername/telegram-med-analytics-pipeline/actions)
+## ✅ Interim Deliverables Completed
 
-<img src="docs/screenshots/pipeline_architecture.png" width="600" alt="System Architecture">
-
-A production-ready data pipeline analyzing Ethiopian medical Telegram channels for pharmaceutical intelligence, price trends, and counterfeit detection.
-
-## 🚀 Key Features
-
-- **Telethon-powered scraping** of 10+ medical Telegram channels
-- **Modern ELT pipeline** with dbt (star schema optimized for analytics)
-- **AI-powered image recognition** using YOLOv8 (pills, syringes detection)
-- **Analytical API** with FastAPI (top products, price trends, visual content stats)
-- **Dagster-orchestrated** with error handling & daily schedules
-- **Infra-as-Code** via Docker & Terraform
-
-## 📂 Repository Structure
-
+### Task 0 - Project Setup
 ```bash
 .
-├── pipelines/          # Core data workflows
-│   ├── extraction/     # Telegram scrapers
-│   ├── transformation/ # dbt models
-│   └── enrichment/     # YOLOv8 detection
-├── services/           # API & orchestration
-├── infra/              # Docker/Terraform configs
-├── lib/                # Shared utilities
-└── tests/              # Unit/integration/e2e
+├── Dockerfile                  # Containerized Python+PostgreSQL
+├── docker-compose.yml          # Multi-container orchestration
+├── requirements.txt            # Python dependencies
+├── .env.example                # Environment template
+└── .gitignore                 # Excludes secrets/logs
 ```
-## 🛠️ Quick Start
+### Task 1 - Data Scraping
+### Key Features
+## Features
+
+- Scrapes 3+ Ethiopian medical channels (`Chemed`, `Lobelia`, `Tikvah`)
+- Stores raw JSON in a partitioned structure:  
+  `data/raw/telegram_messages/YYYY-MM-DD/<channel>.json`  
+  _Example:_ `data/raw/telegram_messages/2024-07-10/chemed.json`
+- Robust logging  
+  _Log file:_ `scraping/scraper.log`
+
+
+### Task 2 - dbt Modeling
+## Star Schema Implemented
+
+- `dim_channels` – Channel metadata  
+- `dim_dates` – Time dimensions  
+- `fct_messages` – Message facts (links to dims)
+
+# 🛠️ Interim Setup Guide
 ### Prerequisites
-* Python 3.11+
+- Docker Desktop
+- Python 3.11
+- Telegram API ID/HASH
+##  Installation
+## Clone, Setup, and Start Containers
 
-* Docker & Docker Compose
+```bash
+# Clone the repository
+git clone https://github.com/Shegaw-21hub/telegram_data_pipeline.git
 
-* Telegram API credentials
+# Navigate into the project directory
+cd telegram_data_pipeline
 
-### Installation
-```powershell
-git clone https://github.com/yourusername/telegram-med-analytics-pipeline.git
-cd telegram-med-analytics-pipeline
+# Copy environment configuration file and add your credentials
+copy .env.example .env
 
-# Setup environment
-cp .env.example .env
-docker-compose up -d
-
-# Initialize database
-make migrate
+# Start the PostgreSQL container
+docker-compose up -d postgres
 ```
-### Running the Pipeline
-```powershell
-# Full pipeline run
-dagster job execute -f pipelines/orchestration/jobs.py -n telegram_pipeline
 
-# Start API
-uvicorn services.api.main:app --reload
+## Data Collection
+
 ```
-## 📊 Sample Analytics
-```powershell
-GET /api/analytics/top-products?limit=5
-{
-  "results": [
-    {"product": "Paracetamol", "mentions": 142},
-    {"product": "Amoxicillin", "mentions": 98}
-  ]
-}
+python -m pip install -r requirements.txt
+python scraping/telegram_scraper.py
 ```
-<img src="docs/screenshots/api_demo.gif" width="500" alt="API Demo">
 
-## 🤝 Contributing
-1. Fork the project 
-2. Create your feature branch (git checkout -b feat/ mazing-feature)
+## Run dbt Models
+```bash
+cd dbt_medical
+dbt run --select staging+   # Builds all models in staging and downstream
+dbt test                    # Runs 12+ tests (schema + data tests)
+```
+# 📊 Interim Data Model
+<img src="docs/star_schema.png" width="400" alt="Star Schema">
 
-3. Commit changes (git commit -m 'Add amazing feature')
+# 🔍 Key Files for Grading
+| Task | Critical Files                                                                 |
+|------|----------------------------------------------------------------------------------|
+| 0    | `Dockerfile`, `docker-compose.yml`, `.gitignore`                                |
+| 1    | `scraping/telegram_scraper.py`, `data/raw/` structure                            |
+| 2    | `dbt_medical/models/{staging,marts}/`, `dbt_medical/tests/`                      |
 
-4. Push to branch (git push origin feat/amazing-feature)
+# 📝 Interim Report Highlights
+## Highlights
 
-5. Open a Pull Request
-## ✉️ Contact
-Name: Shegaw Adugna  
-Email: shegamihret@gmail.com  
-GitHub: https://github.com/Shegaw-21hub/telegram_data_pipeline
+- **Partitioned Data Lake**: Daily JSON files preserve raw data
+- **dbt Tests**: 100% pass rate on primary keys and custom checks
+- **Error Handling**: Scraper survives rate limits via exponential backoff
+
+📌 *Full interim code available in the `main` branch*
+
+**Contact:** Shegaw Adugna  
+📧 [shegamihret@gmail.com](mailto:shegamihret@gmail.com)  
+🔗 [GitHub Repository](https://github.com/Shegaw-21hub/telegram_data_pipeline)
