@@ -1,0 +1,39 @@
+# .dockerignore
+# Ignore Python virtual environments
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+
+# Ignore local data storage (since these will be mounted as volumes)
+data/
+logs/
+telegram_messages/
+telegram_images/
+
+# Ignore dbt specific compiled/generated directories that shouldn't be in the dbt image build
+# if the dbt_project/Dockerfile build context is its own directory
+dbt_project/target/
+dbt_project/dbt_packages/
+dbt_project/logs/
+
+# Ignore Git-related files
+.git/
+.gitignore
+.gitattributes
+
+# Ignore IDE/editor specific files
+.idea/
+.vscode/
+*.swp
+*.bak
+*~
+
+# Ignore the .env file (secrets should not be baked into the image)
+.env
+.DS_Store # Mac specific
+
+# Telegram session file should also not be copied into the image
+# It will be generated and persist via volume
+*.session
