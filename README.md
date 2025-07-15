@@ -41,7 +41,7 @@ graph TD
 ## 🚀 Deployment Quickstart
 ```
 # Clone repository
-git clone https://github.com/yourusername/ethiopian-pharma-intel.git
+git clone https://github.com/Shegaw-21hub/telegram_data_pipeline
 cd ethiopian-pharma-intel
 
 # Initialize environment
