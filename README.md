@@ -129,8 +129,6 @@ MIT License - See [LICENSE](LICENSE) for details.
 ### Project Lead
 
 **Shegaw Adugna**  
-Email: [shegamihret@gmail.com](mailto:shegamihret@gmail.com)  
-LinkedIn: [shegaw-adugna](https://www.linkedin.com/in/shegaw-adugna-b751a1166/)  
 
 ### Project Repository
 
